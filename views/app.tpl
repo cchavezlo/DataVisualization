@@ -28,7 +28,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
     <!--<script src="/static/utils.js"></script>->
     <link href="https://fonts.googleapis.com/css?family=Averia+Libre" rel="stylesheet">
-
+    <script type="text/javascript" src="static/d3.js"></script>
     <style>
         .tabs>.indicator {
             background-color: #64b5f6;
