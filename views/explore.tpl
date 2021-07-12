@@ -9,6 +9,16 @@
 
 <table>
     <thead>
+    <tr>
+            <th>Mapa Informativo</th>
+
+            <tr> <th>
+            <div class="viz"></div>
+             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+            <script type="text/javascript" src="https://d3js.org/topojson.v3.min.js"></script>
+            <script type="text/javascript" src="/static/mapaeeuu.js"></script>
+            <th> </th>
+            </tr>
         <tr>
             <th></th>
             %for label in columns_detail:
@@ -18,6 +28,7 @@
     </thead>
 
     <tbody>
+
         <tr>
             <th>Porcentaje de Valores nulos</th>
             %for label in columns_detail:
@@ -30,17 +41,10 @@
             %for attr_name in columns_detail:
             <td>{{column_data[attr_name]}}</td>
             %end
+
         </tr>
         %end
 
-        %for column_name, column_data in columns_data.items():
-        <tr>
-            <td>{{column_name}}</td>
-            %for attr_name in columns_detail:
-            <td>{{column_data[attr_name]}}</td>
-            %end
-        </tr>
-        %end
 
     </tbody>
 
