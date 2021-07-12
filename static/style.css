@@ -1,0 +1,17 @@
+b.selectable {
+  cursor: pointer;
+}
+
+.selected {
+  background: #2e7d328a;
+  color: white;
+}
+
+div.sticky {
+  position: fixed;
+  top: 20%;
+  padding: 5px;
+  background-color: #cae8ca;
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+}
