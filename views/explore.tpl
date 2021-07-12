@@ -32,6 +32,16 @@
             %end
         </tr>
         %end
+
+        %for column_name, column_data in columns_data.items():
+        <tr>
+            <td>{{column_name}}</td>
+            %for attr_name in columns_detail:
+            <td>{{column_data[attr_name]}}</td>
+            %end
+        </tr>
+        %end
+
     </tbody>
 
 </table>

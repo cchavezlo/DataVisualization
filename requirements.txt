@@ -1,3 +1,5 @@
 bottle
 sklearn
 pandas
+matplotlib
+statsmodels
