@@ -28,6 +28,11 @@ def funnull():
     nombres=total_columns
     return template("null", listaNull=listanulos,listaNomb=nombres)
 
+@route('/mym')
+def funmym():
+    maxs,mins=maxYmin(dataframe)
+    return template("maxymin", columns_detail=total_columns,maxs=maxs,mins=mins)
+
 @route('/explore')
 def index():
     return template("explore", attr_data=attr_data)
