@@ -10,21 +10,24 @@
 <table>
     <thead>
     <tr>
-            <th>Mapa Informativo</th>
+          <th>Mapa Informativo</th>
+    </tr>
+    <tr>
+        <div id="tooltip-container"></div>
+        <div id="canvas-svg"></div>
 
-            <tr> <th>
-            <div class="viz"></div>
-             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
-            <script type="text/javascript" src="https://d3js.org/topojson.v3.min.js"></script>
-            <script type="text/javascript" src="/static/mapaeeuu.js"></script>
-            <th> </th>
-            </tr>
-        <tr>
-            <th></th>
-            %for label in columns_detail:
-            <th>{{label}}</th>
-            %end
-        </tr>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js"></script>
+
+        <script type="text/javascript" src="/static/us_states.js"></script>
+
+    </tr>
+    <tr>
+        <th></th>
+        %for label in columns_detail:
+        <th>{{label}}</th>
+        %end
+    </tr>
     </thead>
 
     <tbody>
@@ -36,9 +39,10 @@
             %end
         </tr>
         %for column_name, column_data in columns_data.items():
-        <tr>
+        <tr >
             <td>{{column_name}}</td>
             %for attr_name in columns_detail:
+
             <td>{{column_data[attr_name]}}</td>
             %end
 

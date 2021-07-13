@@ -47,6 +47,10 @@ def select_attrs():
     if attribute_based != "true":
         filtered_dataframe = filtered_dataframe.T
 
+    #dataF= filtered_dataframe.columns(column_detail)
+    #print(filtered_dataframe.to_dict())
+    #filtered_dataframe.to_json("static/tmpresult.json", orient='index')
+
     # return filtered_dataframe.to_dict()
     return template("explore", columns_data=filtered_dataframe.to_dict(), columns_detail=column_detail, type_info='Lugares' if attribute_based != 'true' else 'Atributos')
 

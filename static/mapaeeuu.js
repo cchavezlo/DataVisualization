@@ -22,7 +22,7 @@
 
         const api = 'http://localhost:1234/static/us.json';
 
-        Promise.resolve(d3.json(api))
+        Promise.resolve(d3.json('http://localhost:1234/static/us.json'))
             .then(ready);
 
         var projection = d3.geoAlbersUsa()
@@ -63,8 +63,30 @@
                 .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
                 .attr("id", "state-borders")
                 .attr("d", path);
+            g.selectAll("path")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .on("click", click);
+            g.selectAll("text")
+                .data(json.features)
+                .enter()
+                .append("svg:text")
+                .text(function(d){
+                    return d.properties.name;
+                })
+                .attr("x", function(d){
+                    return path.centroid(d)[0];
+                })
+                .attr("y", function(d){
+                    return  path.centroid(d)[1];
+                })
+                .attr("text-anchor","middle")
+                .attr('font-size','6pt');
 
         }
+
 
         function clicked(d) {
             if (d3.select('.background').node() === this) return reset();
