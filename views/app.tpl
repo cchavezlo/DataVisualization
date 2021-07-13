@@ -68,7 +68,7 @@
             <a href="/" class="brand-logo" style="cursive; font-size: 37px"> Ciencia de Datos</a>
 
             <ul class="right hide-on-med-and-down">
-                <li><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Preparación Datos <i
+                <li><a class='dropdown-button' href='#' data-activates='dropdown1'>Preparación Datos <i
                             class="material-icons right">arrow_drop_down</i></a>
 
                     <ul id="dropdown1" class="dropdown-content">
@@ -79,7 +79,7 @@
 
                 </li>
 
-                <li><a class='dropdown-button btn' href='#' data-activates='dropdown2'>Pre-Procesamiento <i
+                <li><a class='dropdown-button' href='#' data-activates='dropdown2'>Pre-Procesamiento <i
                             class="material-icons right">arrow_drop_down</i></a>
 
                     <ul id="dropdown2" class="dropdown-content">
@@ -88,7 +88,7 @@
                     </ul>
                 </li>
 
-                <li><a class='dropdown-button btn' href='#' data-activates='dropdown3'>Análisis Exploratorio <i
+                <li><a class='dropdown-button' href='#' data-activates='dropdown3'>Análisis Exploratorio <i
                             class="material-icons right">arrow_drop_down</i></a>
 
                     <ul id="dropdown3" class="dropdown-content">
@@ -114,6 +114,13 @@
 
     <script type="text/javascript">
         //$(".tabs>li>a").css("color", '#1e88e5');
+        $(document).ready(function() {
+            $('.dropdown-button').dropdown({
+                belowOrigin: true,
+                constrainWidth: true
+            });
+
+        })
         $(".dropdown-content>li>a").css("color", '#1e88e5');
         $(".button-collapse").sideNav({
             draggable: true
