@@ -52,3 +52,14 @@ div.tooltip {
   margin-left: 20px;
   float: right;
 }
+svg {
+    border: 1px solid #aaa;
+}
+rect {
+    fill: SteelBlue;
+}
+text {
+    font-family: Helvetica, Arial;
+    font-size: 10px;
+    text-anchor: middle;
+}

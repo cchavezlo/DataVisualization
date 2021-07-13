@@ -1,11 +1,10 @@
-
 import bottle
+import json
 from bottle import route, run, template, request, response, redirect, static_file, error, post
 from numpy import percentile
-
 from attrs import attr_data
 
-from functions import open_dataset, get_columns
+from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, maxYmin ,leerCSV
 
 dataframe = open_dataset()
 total_columns = get_columns()
@@ -23,6 +22,11 @@ def index():
 
     return template("index", attr_data=attr_data, attr_detail=column_detail)
 
+@route('/nulos')
+def funnull():
+    listanulos=porcDeNullsXColumn(dataframe)
+    nombres=total_columns
+    return template("null", listaNull=listanulos,listaNomb=nombres)
 
 @route('/explore')
 def index():

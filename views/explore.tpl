@@ -34,6 +34,7 @@
 
         <tr>
             <th>Porcentaje de Valores nulos</th>
+
             %for label in columns_detail:
             <th>{{columns_detail[label]['perc']}}% - {{columns_detail[label]['len']}}</th>
             %end

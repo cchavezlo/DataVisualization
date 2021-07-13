@@ -70,6 +70,7 @@ d3.csv("http://localhost:1234/static/population.csv", function(err, data) {
       height = HEIGHT;
 
   var valueById = d3.map();
+  var valueabbrById = d3.map();
 
   var startColors = COLOR_START.getColors(),
       endColors = COLOR_END.getColors();
@@ -108,7 +109,7 @@ d3.csv("http://localhost:1234/static/population.csv", function(err, data) {
   data.forEach(function(d) {
     var id = name_id_map[d[MAP_STATE]];
     valueById.set(id, +d[MAP_VALUE]);
-    valueById.set(id, +d[NOM_VALUE]);
+    valueabbrById.set(id, +d[NOM_VALUE]);
   });
 
   quantize.domain([d3.min(data, function(d){ return +d[MAP_VALUE] }),
@@ -138,17 +139,30 @@ d3.csv("http://localhost:1234/static/population.csv", function(err, data) {
             html += "<div class=\"tooltip_kv\">";
             html += "<span class=\"tooltip_key\">";
             html += id_name_map[d.id];
+            html += "<br>";
+            html += non_value_abbr[d.id];
             html += "</span>";
+
             html += "<span class=\"tooltip_value\">";
             html += (valueById.get(d.id) ? valueFormat(valueById.get(d.id)) : "");
             html += "";
+            html += "<br>";
+            html += "Contiene: Atributos Nulos";
             html += "</span>";
             html += "</div>";
 
             $("#tooltip-container").html(html);
             $(this).attr("fill-opacity", "0.8");
             $("#tooltip-container").show();
-            document.getElementsByName("test").value = non_value_abbr[d.id];
+
+            $.ajax({
+              url: '/select_attrs',
+              data:  {"abbr" : non_value_abbr[d.id]},
+               success: function( abbr ){
+                    return abbr;
+                },
+              dataType: 'application/json'
+            });
 
             var coordinates = d3.mouse(this);
 

@@ -70,7 +70,7 @@
 
             <ul class="right hide-on-med-and-down">
                 <li><a href="/explore">Explorar Datos</a></li>
-
+                <li><a href="/nulos"> Nulos </a> </li>
                 <li><a class="dropdown-button" data-constrainWidth='false' data-beloworigin='true' href='#'
                         data-activates='dd1'>Opciones <i class="material-icons right">arrow_drop_down</i></a> </li>
 
