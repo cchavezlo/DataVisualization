@@ -35,8 +35,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='/static/style.css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
 
     <!--<script src="/static/utils.js"></script>->
      <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -69,7 +68,7 @@
             <a href="/" class="brand-logo" style="cursive; font-size: 37px"> Ciencia de Datos</a>
 
             <ul class="right hide-on-med-and-down">
-                <li><a href="/explore">Explorar Datos</a></li>
+                <li><a href="/">Explorar Datos</a></li>
                 <li><a href="/nulos"> Nulos </a> </li>
                 <li><a class="dropdown-button" data-constrainWidth='false' data-beloworigin='true' href='#'
                         data-activates='dd1'>Opciones <i class="material-icons right">arrow_drop_down</i></a> </li>

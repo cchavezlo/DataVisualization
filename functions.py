@@ -18,7 +18,6 @@ from scipy import signal as sig
 from attrs import attr_data
 
 
-
 def get_columns():
     columns = []
     for _, attrs in attr_data.items():
@@ -87,6 +86,7 @@ def leerCSV(ruta, rutaNames=False):
         df = pd.read_csv(ruta)
         return df
 
+
 def open_dataset():
     dataframe = pd.read_csv('db.txt', sep=',', header=None)
     # columns = dataframe.iloc[0]
@@ -97,13 +97,21 @@ def open_dataset():
     return dataframe
 
 
-def get_lost_data(dataframe):
-    res = {}
+def get_lost_data(dataframe, return_only_nulls=False):
+    column_detail = {}
     for column in dataframe.columns:
-        lost_data, indices = dataframe.get_lost_data(column)
-
-        res[column] = {'porcentaje': lost_data, 'indices': indices}
-    return res
+        null_num = (dataframe[column] == '?').sum()
+        null_percentage = round(null_num * 100 /
+                                len(dataframe[column]), 2)
+        # print(f"{column}: ", null_num, null_percentage)
+        if return_only_nulls:
+            if null_percentage != 0:
+                column_detail[column] = null_percentage
+            else:
+                continue
+        else:
+            column_detail[column] = null_percentage
+    return column_detail
 
 
 if __name__ == '__main__':

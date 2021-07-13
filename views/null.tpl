@@ -5,101 +5,87 @@
         Communities and Crime Unnormalized Data Set
     </span>
 </h4>
-<hr/>
+<hr />
 <div class="row center-align valign-wrapper">
     <div class="col">
         <h5>
-            Información del dataset
+            Atributos con Datos Nulos
         </h5>
     </div>
 </div>
-<div class="divider">
-</div>
+<div class="divider"></div>
+<canvas id="myChart" height="200"></canvas>
+
 <script>
-    var datos ={{listaNull}};        
-    var nombres=[];
-    var dict = []; // create an empty array
-    var i=0;
-    % for fruta in listaNomb:
-        i=i+1;
-        dict.push({ dato: datos[i] , nombre: "{{fruta}}" });
-    % end   
-    console.log(dict);
+    let null_data = {{!nullDetail}};
+    let labels = [];
+    let data = [];
 
+    for (let city in null_data){
+      labels.push(city)
+      data.push(null_data[city])
+    }
 
-var tooltip = d3.select("div.tooltip");
-
-function graficar() {
-  var w = 2000;
-  var h = 300;
-  
-  var svg = d3.select('body')
-      .append('svg')
-      .attr("width", w)
-      .attr("height", h);
-      
-  svg.selectAll("rect")
-    .data(datos)
-    .enter()
-    .append("rect")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", 20)
-    .attr("height", 100)
+    console.log(labels, data)
     
-    .attr("x", function(d, i){return i * 21 + 30 // Ancho de barras de 20 más 1 de espacio
-    })
-    
-    .attr("height", function(d){return d;})
-    
-    .attr("y", function(d){return h - d; // Altura menos el dato
-    })
-    .on("mouseover", handleMouseOver)
-    .on("mouseout", handleMouseOut);
-///
-        function handleMouseOver(d, i) {  // Add interactivity
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Nulls',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins:{
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    var label = context.dataset.label || '';
+                    if (label) {
+                      label += ': ';
+                    }
+                    if (context.parsed.x !== null) {
+                      label += context.parsed.x + '%';
+                    }
 
-            // Use D3 to select element, change color and size
-            d3.select(this).attr({
-              fill: "orange"
-            });
-
-            // Specify where to put label of text
-            svg.append("text").attr({
-               id: d + i,  // Create an id for text so we can select it later for removing on mouseout
-                x: function() { return d ; }
-            })
-            .text(function() {
-              return d;  // Value of the text
-            });
-          }
-
-      function handleMouseOut(d, i) {
-            // Use D3 to select element, change color back to normal
-            d3.select(this).attr({
-              fill: "black",
-            });
-
-            // Select text by id and then remove
-            d3.select(d + i).remove();  // Remove text location
-          }
-///
-
-    svg.selectAll("text")
-      .data(datos)
-      .enter()
-      .append("text")
-      .text(function(d){
-        return d;
-      })
-    .attr("x", function(d, i){
-      return i * 21 + 40 // + 5
-        })
-    .attr("y", function(d){
-      return h - d - 3; // + 15
-    })
-    
-}
+                    return label;
+                  }
+                }
+              }
+            },
+            indexAxis: 'y',
+            onClick: (e) => {
+              console.log(e)
+              var activePointLabel = Chart.helpers;
+              console.log(activePointLabel)
+              alert(activePointLabel);
+            }
+        }
+    });
 </script>
-<body onload="graficar()">
 </body>
