@@ -64,6 +64,12 @@ def maxYmin(df):
     return maximo, minimo
 
 
+def knnOp(df, ng):
+    imputer = KNNImputer(missing_values="?", n_neighbors=ng)
+    imputer.fit_transform(df)
+    return df
+
+
 def get_columns():
     columns = []
     for _, attrs in attr_data.items():

@@ -4,9 +4,8 @@ from bottle import route, run, template, request, response, redirect, static_fil
 from numpy import percentile
 from attrs import attr_data
 
-import json
-
-from functions import get_lost_data, open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, maxYmin, leerCSV
+from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, \
+    maxYmin, leerCSV, get_lost_data
 
 dataframe = open_dataset()
 total_columns = get_columns()
@@ -24,7 +23,6 @@ def index():
 
     return template("index", attr_data=attr_data, attr_detail=column_detail)
 
-
 @route('/nulos')
 def funnull():
     # listanulos = porcDeNullsXColumn(dataframe)
@@ -33,7 +31,6 @@ def funnull():
     null_detail = get_lost_data(dataframe, return_only_nulls=True)
 
     return template("null", nullDetail=json.dumps(null_detail))
-
 
 @route('/mym')
 def funmym():
@@ -64,7 +61,7 @@ def select_attrs():
         filtered_dataframe = filtered_dataframe.T
 
     #dataF= filtered_dataframe.columns(column_detail)
-    # print(filtered_dataframe.to_dict())
+    #print(filtered_dataframe.to_dict())
     #filtered_dataframe.to_json("static/tmpresult.json", orient='index')
 
     # return filtered_dataframe.to_dict()
