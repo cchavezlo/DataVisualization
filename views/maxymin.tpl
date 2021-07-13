@@ -1,7 +1,5 @@
 %rebase('app', title="Ciencia de Datos")
-<h4>
-    Exploración de datos:
-</h4>
+
 <hr/>
 <h5>
     Información Maximos y Minimos por caracteristicas:
