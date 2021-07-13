@@ -35,6 +35,11 @@ def funnull():
     return template("null", nullDetail=json.dumps(null_detail))
 
 
+@route('/mym')
+def funmym():
+    maxs,mins=maxYmin(dataframe)
+    return template("maxymin", columns_detail=total_columns,maxs=maxs,mins=mins)
+
 @route('/explore')
 def index():
     return template("explore", attr_data=attr_data)

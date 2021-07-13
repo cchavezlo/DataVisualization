@@ -68,10 +68,35 @@
             <a href="/" class="brand-logo" style="cursive; font-size: 37px"> Ciencia de Datos</a>
 
             <ul class="right hide-on-med-and-down">
-                <li><a href="/">Explorar Datos</a></li>
-                <li><a href="/nulos"> Nulos </a> </li>
-                <li><a class="dropdown-button" data-constrainWidth='false' data-beloworigin='true' href='#'
-                        data-activates='dd1'>Opciones <i class="material-icons right">arrow_drop_down</i></a> </li>
+                <li><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Preparación Datos <i
+                            class="material-icons right">arrow_drop_down</i></a>
+
+                    <ul id="dropdown1" class="dropdown-content">
+                        <li><a href="/" class="hover-nav-finance" id="camp-dates">Explorar Datos</a></li>
+                        <li><a href="/nulos" class="hover-nav-finance" id="prices">Visu Nulos</a></li>
+                    </ul>
+
+
+                </li>
+
+                <li><a class='dropdown-button btn' href='#' data-activates='dropdown2'>Pre-Procesamiento <i
+                            class="material-icons right">arrow_drop_down</i></a>
+
+                    <ul id="dropdown2" class="dropdown-content">
+                        <li><a href="/mym" class="hover-nav-finance">Data Ruidosa</a></li>
+                        <li><a href="/data_faltante" class="hover-nav-finance">Data Faltante</a></li>
+                    </ul>
+                </li>
+
+                <li><a class='dropdown-button btn' href='#' data-activates='dropdown3'>Análisis Exploratorio <i
+                            class="material-icons right">arrow_drop_down</i></a>
+
+                    <ul id="dropdown3" class="dropdown-content">
+                        <li><a href="#" class="hover-nav-finance">Medidas Posición</a></li>
+
+                    </ul>
+                </li>
+
 
             </ul>
 
