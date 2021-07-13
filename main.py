@@ -4,8 +4,8 @@ from bottle import route, run, template, request, response, redirect, static_fil
 from numpy import percentile
 from attrs import attr_data
 
-from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, \
-    maxYmin, leerCSV, get_lost_data
+from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, maxYmin ,leerCSV,media,moda
+
 
 dataframe = open_dataset()
 total_columns = get_columns()
