@@ -12,6 +12,7 @@ import pandas as pd
 import collections
 import statsmodels.api as sm
 
+scipy import stats as st
 from scipy import fft
 from scipy import signal as sig
 
@@ -70,20 +71,36 @@ def maxYmin(df):
     
     return maximo, minimo
 
+
+def mediana(df):
+    dfcompleto = compValNull(df)
+    mediana = []
+    for c in dfcompleto.columns:
+        if(isinstance(dfcompleto[c][100],str)):
+            mediana.append(-1)
+        else:
+            mediana.append(stats.median(edades))
+
+    return mediana
+
 def media(df):
     dfcompleto = compValNull(df)
-    i=0
     media = []
     for c in dfcompleto.columns:
         if(isinstance(dfcompleto[c][100],str)):
             media.append(-1)
         else:
             media.append(dfcompleto[c].mean())
-        i=i+1
 
-    print(media)
-    return True
+    return media
 
+def moda(df):
+    dfcompleto = compValNull(df)
+    moda = []
+    for c in dfcompleto.columns:
+        moda.append(st.mode(dfcompleto[c]))
+
+    return moda
 
 def get_columns():
     columns = []
