@@ -6,8 +6,8 @@ import pandas
 from pandas.io.parsers import read_csv
 from attrs import attr_data
 
-from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, maxYmin, leerCSV, get_lost_data
-
+from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, \
+    maxYmin, leerCSV, get_lost_data
 
 dataframe = open_dataset()
 total_columns = get_columns()
