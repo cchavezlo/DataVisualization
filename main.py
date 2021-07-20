@@ -2,9 +2,11 @@ import bottle
 import json
 from bottle import route, run, template, request, response, redirect, static_file, error, post
 from numpy import percentile
+import pandas
+from pandas.io.parsers import read_csv
 from attrs import attr_data
 
-from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, maxYmin ,leerCSV,media,moda
+from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, maxYmin, leerCSV, get_lost_data
 
 
 dataframe = open_dataset()
@@ -20,8 +22,8 @@ def index():
                                 len(dataframe[column]), 2)
         # print(f"{column}: ", null_num, null_percentage)
         column_detail[column] = null_percentage
-
     return template("index", attr_data=attr_data, attr_detail=column_detail)
+
 
 @route('/nulos')
 def funnull():
@@ -32,10 +34,12 @@ def funnull():
 
     return template("null", nullDetail=json.dumps(null_detail))
 
+
 @route('/mym')
 def funmym():
-    maxs,mins=maxYmin(dataframe)
-    return template("maxymin", columns_detail=total_columns,maxs=maxs,mins=mins)
+    maxs, mins = maxYmin(dataframe)
+    return template("maxymin", columns_detail=total_columns, maxs=maxs, mins=mins)
+
 
 @route('/explore')
 def index():
@@ -61,11 +65,20 @@ def select_attrs():
         filtered_dataframe = filtered_dataframe.T
 
     #dataF= filtered_dataframe.columns(column_detail)
-    #print(filtered_dataframe.to_dict())
+    # print(filtered_dataframe.to_dict())
     #filtered_dataframe.to_json("static/tmpresult.json", orient='index')
 
     # return filtered_dataframe.to_dict()
     return template("explore", columns_data=filtered_dataframe.to_dict(), columns_detail=column_detail, type_info='Lugares' if attribute_based != 'true' else 'Atributos')
+
+
+@route('/datared')
+def data_reduction():
+    # normalized_dataframe = pandas.read_csv(
+    #     'communities.txt', delimiter=',', header=None)
+    normalized_dataframe = dataframe
+
+    print(normalized_dataframe)
 
 
 @route('/static/<filepath:path>')

@@ -17,6 +17,8 @@ from scipy import signal as sig
 
 from attrs import attr_data
 
+minmaxScaler = MinMaxScaler(copy=False)
+
 
 def get_columns():
     columns = []
@@ -53,7 +55,20 @@ def porcDeNullsXColumn(df):
 def compValNull(df):
     mod = SimpleImputer(missing_values="?", strategy="most_frequent")
     dfcompleto = pd.DataFrame(mod.fit_transform(df))
+    dfcompleto.columns = get_columns()
     return (dfcompleto)
+
+
+def scaleDataframe(df):
+    predictable_columns = ['communityname'] + \
+        list(attr_data['Predecibles'].keys())
+
+    filtered_dataframe = df[predictable_columns]
+    filtered_dataframe.set_index('communityname', inplace=True)
+    filtered_dataframe = pd.DataFrame(
+        minmaxScaler.fit_transform(filtered_dataframe.values), columns=predictable_columns[1:], index=df['communityname'])
+
+    return filtered_dataframe
 
 
 def maxYmin(df):
@@ -121,4 +136,21 @@ def get_lost_data(dataframe, return_only_nulls=False):
 
 
 if __name__ == '__main__':
-    open_dataset()
+    # Work with unormalized data
+    dataframe = open_dataset()
+
+    # Fill null values
+    dataframe = compValNull(dataframe)
+
+    # Scale dataframe (select only predicatble values) and apply PCA to them
+    dataframe = scaleDataframe(dataframe)
+    pca = PCA(n_components=2)
+
+    reducted_data = pca.fit_transform(dataframe)
+
+    # Show result
+    import matplotlib.pyplot as plt
+
+    plt.scatter(reducted_data[:, 0], reducted_data[:, 1])
+    plt.show()
+    print(reducted_data)
