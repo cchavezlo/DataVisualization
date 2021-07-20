@@ -146,11 +146,20 @@ if __name__ == '__main__':
     dataframe = scaleDataframe(dataframe)
     pca = PCA(n_components=2)
 
-    reducted_data = pca.fit_transform(dataframe)
+    reducted_2d_data = pca.fit_transform(dataframe)
 
     # Show result
     import matplotlib.pyplot as plt
 
-    plt.scatter(reducted_data[:, 0], reducted_data[:, 1])
+    # plt.scatter(reducted_2d_data[:, 0], reducted_2d_data[:, 1])
+    # plt.show()
+
+    pca = PCA(n_components=3)
+    reducted_3d_data = pca.fit_transform(dataframe)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    print(reducted_3d_data.shape)
+    ax.scatter(reducted_3d_data[:, 0],
+               reducted_3d_data[:, 1], reducted_3d_data[:, 2])
     plt.show()
-    print(reducted_data)
