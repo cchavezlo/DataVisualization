@@ -96,7 +96,7 @@ def get_columns():
 
 def leerCSV(ruta, rutaNames=False):
     if (rutaNames != False):
-        titulos = pd.read_csv(rutaNames, header=None, )
+        titulos = pd.read_csv(rutaNames, header=None)
         cabeceras = titulos[0].tolist()
         df = pd.read_csv(ruta, header=None, names=cabeceras)
         return df, cabeceras

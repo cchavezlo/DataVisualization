@@ -1,6 +1,6 @@
 import bottle
 import json
-from bottle import route, run, template, request, response, redirect, static_file, error, post
+from bottle import route, run, template, request, response, redirect, static_file, error, post, view
 from numpy import percentile
 import pandas
 from pandas.io.parsers import read_csv
@@ -76,9 +76,7 @@ def select_attrs():
 def data_reduction():
     # normalized_dataframe = pandas.read_csv(
     #     'communities.txt', delimiter=',', header=None)
-    normalized_dataframe = dataframe
-
-    print(normalized_dataframe)
+    return template('reduction')
 
 
 @route('/static/<filepath:path>')
