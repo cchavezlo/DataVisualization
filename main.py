@@ -1,13 +1,15 @@
+from functools import reduce
 import bottle
 import json
 from bottle import route, run, template, request, response, redirect, static_file, error, post, view
 from numpy import percentile
+from numpy.core.numeric import indices
 import pandas
 from pandas.io.parsers import read_csv
 from attrs import attr_data
 
 from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, \
-    maxYmin, leerCSV, get_lost_data
+    maxYmin, leerCSV, get_lost_data, reduce_data
 
 dataframe = open_dataset()
 total_columns = get_columns()
@@ -64,9 +66,9 @@ def select_attrs():
     if attribute_based != "true":
         filtered_dataframe = filtered_dataframe.T
 
-    #dataF= filtered_dataframe.columns(column_detail)
+    # dataF= filtered_dataframe.columns(column_detail)
     # print(filtered_dataframe.to_dict())
-    #filtered_dataframe.to_json("static/tmpresult.json", orient='index')
+    # filtered_dataframe.to_json("static/tmpresult.json", orient='index')
 
     # return filtered_dataframe.to_dict()
     return template("explore", columns_data=filtered_dataframe.to_dict(), columns_detail=column_detail, type_info='Lugares' if attribute_based != 'true' else 'Atributos')
@@ -76,7 +78,21 @@ def select_attrs():
 def data_reduction():
     # normalized_dataframe = pandas.read_csv(
     #     'communities.txt', delimiter=',', header=None)
-    return template('reduction')
+    print("Comps:", request.query.n_comp)
+
+    n_components = 2 if request.query.n_comp is None else 3
+    columns = ['x', 'y'] if request.query.n_comp is None else ['x', 'y', 'z']
+    print(repr(n_components))
+    raw_dataframe = open_dataset()
+
+    reduced_data = reduce_data(raw_dataframe, n_components)
+
+    reduced_dataframe = pandas.DataFrame(
+        reduced_data, columns=columns)
+    reduced_dataframe['comm_alias'] = raw_dataframe['communityname'] + \
+        '_'+raw_dataframe['state']
+    # return reduced_dataframe.to_json(orient="records")
+    return template('reduction', reduced_data=reduced_dataframe.to_json(orient="records"))
 
 
 @route('/static/<filepath:path>')

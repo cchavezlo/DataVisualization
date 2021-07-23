@@ -92,6 +92,7 @@
                             class="material-icons right">arrow_drop_down</i></a>
 
                     <ul id="dropdown3" class="dropdown-content">
+                        <li><a href="/datared" class="hover-nav-finance">Reducción de dimensiones</a></li>
                         <li><a href="#" class="hover-nav-finance">Medidas Posición</a></li>
 
                     </ul>

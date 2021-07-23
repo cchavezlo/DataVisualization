@@ -135,6 +135,19 @@ def get_lost_data(dataframe, return_only_nulls=False):
     return column_detail
 
 
+def reduce_data(dataframe, n_components=2):
+    # Fill null values
+    dataframe = compValNull(dataframe)
+
+    # Scale dataframe (select only predicatble values) and apply PCA to them
+    dataframe = scaleDataframe(dataframe)
+    pca = PCA(n_components=n_components)
+
+    reduced_data = pca.fit_transform(dataframe)
+
+    return reduced_data
+
+
 if __name__ == '__main__':
     # Work with unormalized data
     dataframe = open_dataset()
