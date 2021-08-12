@@ -17,7 +17,9 @@
     </div>
     <div class="col s6">
         <h5 class="center-align"> Community Data: <span id="hovered_comm" style="font-size: 0.7em;"></span> </h5>
-        <div id="graph" style="height: 700px;">a</div>
+        <div id="graph" style="height: 700px;">
+            <canvas id="myChart" height="200"></canvas>
+        </div>
     </div>
 </div>
 
@@ -28,9 +30,92 @@
 <script src="https://d3js.org/d3.v6.min.js"></script>
 
 <script>
+
+    let null_data = {{!communities_data}};
+    let labels = [
+        "Murders",
+        "Rapes",
+        "Robberies",
+        "Assaults",
+        "Burglaries",
+        "Larcenies",
+        "AutoTheft",
+        "Arsons",
+    ];
+    let graph_data = [];
+    
+    for (let city in labels){
+        graph_data.push(3);
+    }
+
+    console.log(labels, graph_data)
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Data by Communitie',
+                data: graph_data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 2,
+                borderColor: 'rgba(25,150, 25, 0.6)',
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins:{
+            tooltip: {
+                callbacks: {
+                label: function (context) {
+                    var label = context.dataset.label || '';
+                    if (label) {
+                    label += ': ';
+                    }
+                    if (context.parsed.x !== null) {
+                    label += context.parsed.x + '%';
+                    }
+
+                    return label;
+                }
+                }
+            }
+            },
+            indexAxis: 'y',
+            onClick: (e) => {
+            console.log(e)
+            var activePointLabel = Chart.helpers;
+            console.log(activePointLabel)
+            alert(activePointLabel);
+            }
+        }
+    });
+
+
     var margin = ({top: 10, right: 120, bottom: 10, left: 40})
     //var width = window.innerWidth/3;
-    var width = 200;
+    var width = 300;
+    var height = window.innerHeight -100;
 
     var dy = width / 4
     var dx = 9
@@ -55,7 +140,7 @@
         .style("font", "10px sans-serif")
         .style("user-select", "none")
         .style("width", "500")
-        .style("height", "700");
+        .style("height", height);
 
     const gLink = svg.append("g")
         .attr("fill", "none")
@@ -103,19 +188,34 @@
                 console.log('Click', event, d)
                 d.children = d.children ? null : d._children;
                 if (d.children === undefined){
-                    console.log('UPDATE RIGHT CHART', d.data.name)
+                    console.log('UPDATE RIGHT CHART', d.data.name, d.parent.data.name)
+                    let com_name = `${d.data.name}_${d.parent.data.name}`;
+                    let com_data = null_data[com_name];
+                    console.log(com_name, null_data[com_name])
+                    for (data in com_data[0]){
+                        let feature = data.charAt(0).toUpperCase() + data.slice(1);
+                        let fea_idx = labels.indexOf(feature)
+                        if (fea_idx != -1)
+                        {
+                            graph_data[fea_idx] = com_data[0][data]
+                            console.log(feature, fea_idx)
+                        }
+                    }
+                    graph_data[0] = 2;
+                    myChart.update();
+
                 }
                 update(d);
             });
 
-        nodeEnter.append("circle")
+        /*nodeEnter.append("circle")
             .attr("r", 2.5)
             .attr("fill", d => d._children ? "#555" : "#999")
             .attr("stroke-width", 10);
-
+*/
         nodeEnter.append("text")
-            .attr("dy", "0.31em")
-            .attr("x", d => d._children ? -8 : 8)
+            .attr("dy", "0.7em")
+            .attr("x", d => d._children ? -2 : 2)
             .attr("text-anchor", d => d._children ? "end" : "start")
             .text(d => d.data.name)
             .clone(true).lower()

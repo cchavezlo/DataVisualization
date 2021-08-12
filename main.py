@@ -121,8 +121,8 @@ def data_hyerarchy():
 
     filtered_dataframe['comm_alias'] = filtered_dataframe['communityname'] + '_'+filtered_dataframe['state']
     filtered_dataframe = filtered_dataframe.groupby('comm_alias').apply(lambda x: x.to_dict(orient='records'))
-
-    return template('hyerarchy', communities = result, communities_data = dataframe.to_dict())
+    # return filtered_dataframe
+    return template('hyerarchy', communities = result, communities_data = filtered_dataframe.to_dict())
 
 
 @route('/static/<filepath:path>')
