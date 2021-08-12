@@ -1,4 +1,5 @@
 from functools import reduce
+from typing import AbstractSet
 import bottle
 import json
 from bottle import route, run, template, request, response, redirect, static_file, error, post, view
@@ -7,6 +8,7 @@ from numpy.core.numeric import indices
 import pandas
 from pandas.io.parsers import read_csv
 from attrs import attr_data
+from itertools import groupby
 
 from functions import open_dataset, get_columns, porcDeNullsXColumn, porcDeNullsTotal, cantNullxColumns, compValNull, \
     maxYmin, leerCSV, get_lost_data, reduce_data
@@ -93,6 +95,34 @@ def data_reduction():
         '_'+raw_dataframe['state']
     # return reduced_dataframe.to_json(orient="records")
     return template('reduction', reduced_data=reduced_dataframe.to_json(orient="records"))
+
+@route('/hyerarchy')
+def data_hyerarchy():
+    predictable = attr_data['Metas a Predecir']
+    violence_types = []
+    for attr in predictable:
+        if "Pop" not in attr:
+            violence_types.append(attr)
+
+    communities = dataframe[['communityname', 'state']].groupby('state')
+    communities_json = communities.apply(lambda x: x.to_dict(orient='records'))
+    result = {}
+    result['name'] = 'States'
+    result['children'] = []
+    for state, communities in communities_json.items():
+        state_data = {'name':  state}
+        state_data['children'] = []
+        for communitie in communities:
+            state_data['children'].append({"name": communitie['communityname']})
+            communitie.pop('state', None)
+        result['children'].append(state_data)
+
+    filtered_dataframe = dataframe[violence_types + ['communityname', 'state']]
+
+    filtered_dataframe['comm_alias'] = filtered_dataframe['communityname'] + '_'+filtered_dataframe['state']
+    filtered_dataframe = filtered_dataframe.groupby('comm_alias').apply(lambda x: x.to_dict(orient='records'))
+
+    return template('hyerarchy', communities = result, communities_data = dataframe.to_dict())
 
 
 @route('/static/<filepath:path>')
